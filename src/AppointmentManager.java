@@ -104,6 +104,8 @@ public class AppointmentManager {
             return "Warning: an appointment needs a time slot.";
         }
         if (!clinicSchedule.isScheduledSlot(timeSlot)) {
+            // Checked before the clash test: an off-grid time is a bad request,
+            // not a booking conflict, and the message should say which it is.
             return "Warning: " + timeSlot + " is not a clinic time slot. "
                     + "The clinic runs " + clinicSchedule + ".";
         }
@@ -276,6 +278,8 @@ public class AppointmentManager {
      * @return a new, sorted list of appointments
      */
     public ArrayList<Appointment> getAppointmentsInTimeOrder() {
+        // Sort a copy: the manager keeps its own booking order, and callers cannot
+        // reorder or modify the real collection by accident.
         ArrayList<Appointment> sorted = new ArrayList<>(appointments);
         Collections.sort(sorted);
         return sorted;
