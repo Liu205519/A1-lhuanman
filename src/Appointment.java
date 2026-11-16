@@ -92,6 +92,8 @@ public class Appointment implements Comparable<Appointment> {
      * @return {@code true} if the professional is already booked at that time
      */
     public boolean clashesWith(HealthProfessional otherProfessional, TimeSlot otherTimeSlot) {
+        // equals(), not ==: a different object describing the same professional is
+        // still the same professional, and the clinic must not double-book them.
         return healthProfessional.equals(otherProfessional) && timeSlot.equals(otherTimeSlot);
     }
 
@@ -114,6 +116,8 @@ public class Appointment implements Comparable<Appointment> {
         if (timeOrder != 0) {
             return timeOrder;
         }
+        // Two appointments at the same time are ordered by ID only so that the
+        // printed listing is stable from run to run; the brief allows any order.
         return healthProfessional.getProfessionalId()
                 .compareTo(other.healthProfessional.getProfessionalId());
     }
