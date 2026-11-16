@@ -123,11 +123,10 @@ not exceed five minutes.
 
 ## 4. Still to do before submitting
 
-1. **GitHub.** Create a repository, push this project, and commit in several meaningful steps
-   (for example: *Part 1 base class*, *Part 2 specialisations*, *Part 4 appointment*,
-   *Part 5 manager*, *Part 6 demonstration*). Do **not** push one single commit at the end —
-   the brief marks the history. Add the repository link in the submission comments, and if it
-   is private, invite your tutor and the unit assessor.
+1. **GitHub (done).** The project is in a private repository of 20 commits:
+   <https://github.com/Liu205519/A1-lhuanman>. Still the owner's job: invite the tutor and the
+   unit assessor under *Settings → Collaborators*, because a private repository they cannot
+   open scores nothing for version control.
 2. **WakaTime.** Install the WakaTime plugin, open the project with tracking on, then export
    the report as `A1-lhuanman-WakaTime.png` (or `.jpg` / `.pdf`).
 3. **Video.** Record with the script above, upload to your SCU OneDrive, get a shareable link.
