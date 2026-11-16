@@ -150,6 +150,8 @@ public class ClinicSchedule {
      */
     private ArrayList<TimeSlot> buildTimeSlots() {
         ArrayList<TimeSlot> slots = new ArrayList<>();
+        // The slots are generated from the opening time, the closing time and the
+        // slot length, so changing the clinic hours needs no other change anywhere.
         int closingMinutes = closingTime.getMinutesSinceMidnight();
         for (int start = openingTime.getMinutesSinceMidnight();
                 start + slotLengthMinutes <= closingMinutes;
