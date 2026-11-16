@@ -91,6 +91,8 @@ public class TimeSlot implements Comparable<TimeSlot> {
      * @return minutes since midnight, for example 570 for 09:30
      */
     public int getMinutesSinceMidnight() {
+        // One number instead of two fields: comparing minutes is the same as
+        // comparing times, which keeps compareTo short and correct.
         return hour * MINUTES_PER_HOUR + minute;
     }
 
