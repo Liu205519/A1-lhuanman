@@ -125,7 +125,7 @@ HealthProfessional (abstract)
 | --- | --- |
 | Java project, all sources | `A1-lhuanman/` |
 | Zipped project | `A1-lhuanman.zip` |
-| GitHub repository with regular commits | **to do — see `DESIGN-NOTES.md`** |
+| GitHub repository with regular commits | <https://github.com/Liu205519/A1-lhuanman> (private) |
 | WakaTime report | **to do** |
 | 5-minute video on the four pillars | **to do — script in `DESIGN-NOTES.md`** |
 | GenAI declaration in the comments | **to do** |
