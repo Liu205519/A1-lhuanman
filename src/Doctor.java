@@ -70,6 +70,8 @@ public abstract class Doctor extends HealthProfessional {
     public String prescribe(String patientName, String medication) {
         String checkedPatient = requireText(patientName, "Patient name");
         String checkedMedication = requireText(medication, "Medication");
+        // This method lives here, not in HealthProfessional, because a nurse or a
+        // dietitian must not inherit behaviour that is wrong for them.
         return getName() + " (registration " + medicalRegistrationNumber + ") prescribes "
                 + checkedMedication + " to " + checkedPatient + ".";
     }
