@@ -1,0 +1,21 @@
+# Compiled output
+out/
+bin/
+build/
+*.class
+
+# IDE settings
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+nbproject/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Archives
+*.zip
