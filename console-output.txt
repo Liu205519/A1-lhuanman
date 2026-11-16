@@ -1,0 +1,365 @@
+================================================================================
+ PROG2004 Object Oriented Programming - Assessment 1
+ Health Service Appointment System
+ Liu Huanman  |  Student ID 25259078
+
+ A scripted demonstration of a set of collaborating classes. There is
+ no user interface: the main method plays the part of the user, creates
+ the objects and prints the results.
+================================================================================
+
+================================================================================
+ PART 1 - MODELLING A HEALTH PROFESSIONAL
+================================================================================
+HealthProfessional is abstract, so the compiler rejects
+    new HealthProfessional("2001", "Dr Nobody")
+and a professional can only ever be created as a real type.
+
+The class offers two ways of constructing an object:
+    (id, name)                   -> works the default Monday to Friday week
+    (id, name, availableDays)    -> works exactly the days supplied
+
+Every field is private and set once by the constructor, and the
+constructor validates each value, so an object can never exist in an
+invalid state. The getters return copies of the mutable data.
+
+Details of one professional, built by HealthProfessional.toString()
+and the toString() of each type it inherits from:
+  | ID              | 2001 |
+  | Name            | Dr Alice Nguyen |
+  | Type            | General Practitioner |
+  | Available days  | Monday, Wednesday, Friday |
+  | Duties          | Diagnoses and treats common health problems and refers patients on. |
+  | Registration    | MED10023 |
+  | Consult room    | Room 3 |
+  | Experience      | 12 years |
+
+  The constructor refuses to build an invalid object
+  --------------------------------------------------------------------------------
+  rejected ID "AB12"       -> ID must be numbers only, but was: "AB12"
+  rejected a blank name    -> Name is required.
+  rejected an empty week   -> At least one available day is required.
+  rejected a repeated day  -> Monday is listed more than once.
+  rejected a bad mobile    -> Mobile number must contain 10 digits, but was: "0412-ABC"
+  rejected minute 75       -> Minute must be between 0 and 59, but was: 75
+
+================================================================================
+ PARTS 2 AND 3 - SPECIALISING AND WORKING WITH HEALTH PROFESSIONALS
+================================================================================
+Hierarchy:
+    HealthProfessional (abstract)
+        +-- Doctor (abstract) -- adds prescribing and registration
+        |     +-- GeneralPractitioner
+        |     +-- Specialist
+        |     +-- Surgeon
+        +-- Nurse
+        +-- Dietitian
+
+Each type inherits the shared data and adds only what makes it
+different. Each type overrides getProfessionalType(), getDuties()
+and provideService(), so it responds in its own way.
+
+  All professionals, stored together as HealthProfessional objects
+  --------------------------------------------------------------------------------
+  ID       NAME                       TYPE                         AVAILABLE DAYS
+  --------------------------------------------------------------------------------
+  2001     Dr Alice Nguyen            General Practitioner         Monday, Wednesday, Friday
+  2002     Dr Ben Carter              General Practitioner         Monday, Tuesday, Thursday
+  2003     Dr Priya Sharma            General Practitioner         Tuesday, Thursday
+  3001     Dr Marcus Lee              Specialist (Cardiology)      Monday, Tuesday, Friday
+  3002     Dr Sofia Rossi             Specialist (Paediatrics)     Wednesday, Thursday, Friday
+  4001     Dr Henry Okafor            Surgeon                      Monday, Thursday
+  5001     Nurse Grace Miller         Nurse                        Monday, Tuesday, Wednesday, Thursday, Friday
+  5002     Nurse Tom Becker           Nurse                        Monday, Tuesday, Wednesday
+  6001     Ms Hannah Price            Dietitian                    Monday, Friday
+
+  Full details of each professional
+  --------------------------------------------------------------------------------
+  | ID              | 2001 |
+  | Name            | Dr Alice Nguyen |
+  | Type            | General Practitioner |
+  | Available days  | Monday, Wednesday, Friday |
+  | Duties          | Diagnoses and treats common health problems and refers patients on. |
+  | Registration    | MED10023 |
+  | Consult room    | Room 3 |
+  | Experience      | 12 years |
+
+  | ID              | 2002 |
+  | Name            | Dr Ben Carter |
+  | Type            | General Practitioner |
+  | Available days  | Monday, Tuesday, Thursday |
+  | Duties          | Diagnoses and treats common health problems and refers patients on. |
+  | Registration    | MED10047 |
+  | Consult room    | Room 5 |
+  | Experience      | 6 years |
+
+  | ID              | 2003 |
+  | Name            | Dr Priya Sharma |
+  | Type            | General Practitioner |
+  | Available days  | Tuesday, Thursday |
+  | Duties          | Diagnoses and treats common health problems and refers patients on. |
+  | Registration    | MED10052 |
+  | Consult room    | Room 1 |
+  | Experience      | 9 years |
+
+  | ID              | 3001 |
+  | Name            | Dr Marcus Lee |
+  | Type            | Specialist (Cardiology) |
+  | Available days  | Monday, Tuesday, Friday |
+  | Duties          | Diagnoses and treats complex conditions within Cardiology. |
+  | Registration    | MED20015 |
+  | Specialty       | Cardiology |
+  | Department      | St Vincent's Hospital |
+
+  | ID              | 3002 |
+  | Name            | Dr Sofia Rossi |
+  | Type            | Specialist (Paediatrics) |
+  | Available days  | Wednesday, Thursday, Friday |
+  | Duties          | Diagnoses and treats complex conditions within Paediatrics. |
+  | Registration    | MED20031 |
+  | Specialty       | Paediatrics |
+  | Department      | Lismore Base Hospital |
+
+  | ID              | 4001 |
+  | Name            | Dr Henry Okafor |
+  | Type            | Surgeon |
+  | Available days  | Monday, Thursday |
+  | Duties          | Performs operations within Orthopaedics. |
+  | Registration    | MED30008 |
+  | Theatre         | Theatre 2 |
+  | Surgical area   | Orthopaedics |
+  | Operations      | 0 |
+
+  | ID              | 5001 |
+  | Name            | Nurse Grace Miller |
+  | Type            | Nurse |
+  | Available days  | Monday, Tuesday, Wednesday, Thursday, Friday |
+  | Duties          | Provides day-to-day patient care and carries out clinical tasks. |
+  | Ward            | Ward 4B |
+  | Grade           | Registered Nurse |
+
+  | ID              | 5002 |
+  | Name            | Nurse Tom Becker |
+  | Type            | Nurse |
+  | Available days  | Monday, Tuesday, Wednesday |
+  | Duties          | Provides day-to-day patient care and carries out clinical tasks. |
+  | Ward            | Ward 2A |
+  | Grade           | Enrolled Nurse |
+
+  | ID              | 6001 |
+  | Name            | Ms Hannah Price |
+  | Type            | Dietitian |
+  | Available days  | Monday, Friday |
+  | Duties          | Plans and reviews the nutrition and diet of patients. |
+  | Focus area      | Diabetes and weight management |
+  | Qualification   | Accredited Practising Dietitian |
+
+
+  Each professional provides its own service (polymorphism)
+  --------------------------------------------------------------------------------
+  [General Practitioner]
+  Dr Alice Nguyen conducts a general consultation with Chloe Martin in Room 3.
+  [General Practitioner]
+  Dr Ben Carter conducts a general consultation with Chloe Martin in Room 5.
+  [General Practitioner]
+  Dr Priya Sharma conducts a general consultation with Chloe Martin in Room 1.
+  [Specialist (Cardiology)]
+  Dr Marcus Lee reviews Chloe Martin in the Cardiology clinic in St Vincent's Hospital.
+  [Specialist (Paediatrics)]
+  Dr Sofia Rossi reviews Chloe Martin in the Paediatrics clinic in Lismore Base Hospital.
+  [Surgeon]
+  Dr Henry Okafor assesses Chloe Martin for surgery in Theatre 2 (Orthopaedics).
+  [Nurse]
+  Nurse Grace Miller checks the observations of Chloe Martin on Ward 4B.
+  [Nurse]
+  Nurse Tom Becker checks the observations of Chloe Martin on Ward 2A.
+  [Dietitian]
+  Ms Hannah Price reviews the diet of Chloe Martin for Diabetes and weight management.
+
+  Doctor-only behaviour, through the Doctor type
+  --------------------------------------------------------------------------------
+  Only doctor types can prescribe, so they are processed as Doctor
+  objects. prescribe() is written once in Doctor and inherited by every
+  doctor type, so one line per doctor is produced:
+
+  Dr Alice Nguyen (registration MED10023) prescribes Amoxicillin to Chloe Martin.
+  Dr Ben Carter (registration MED10047) prescribes Amoxicillin to Chloe Martin.
+  Dr Priya Sharma (registration MED10052) prescribes Amoxicillin to Chloe Martin.
+  Dr Marcus Lee (registration MED20015) prescribes Amoxicillin to Chloe Martin.
+  Dr Sofia Rossi (registration MED20031) prescribes Amoxicillin to Chloe Martin.
+  Dr Henry Okafor (registration MED30008) prescribes Amoxicillin to Chloe Martin.
+
+  Behaviour that belongs to one type only
+  --------------------------------------------------------------------------------
+  Each of these methods exists on one class only, not on
+  HealthProfessional, so the type that owns it must be used.
+
+  Dr Marcus Lee orders a blood culture for Daniel Kim through St Vincent's Hospital.
+  Dr Henry Okafor performs a knee arthroscopy on Daniel Kim in Theatre 2.
+  Nurse Grace Miller takes a blood sample from Daniel Kim on Ward 4B.
+  Ms Hannah Price creates a meal plan for Daniel Kim focused on Diabetes and weight management.
+
+  The surgeon's private operation count is now 1, changed only through
+  performOperation(), never by touching a field.
+
+  Adding a sixth type would mean adding one subclass, and none of the
+  loops in this demonstration would have to change.
+
+================================================================================
+ PART 4 - MODELLING AN APPOINTMENT
+================================================================================
+An appointment holds a Patient, a HealthProfessional and a TimeSlot.
+All three are required, so the constructor refuses to build an
+incomplete appointment. The professional is held as a
+HealthProfessional, so any of the five types can be booked.
+
+  Appointment at 09:30
+    General Practitioner - Dr Alice Nguyen (ID 2001)
+    Patient          : Chloe Martin, mobile 0412 345 678
+    Health professional details:
+      | ID              | 2001 |
+      | Name            | Dr Alice Nguyen |
+      | Type            | General Practitioner |
+      | Available days  | Monday, Wednesday, Friday |
+      | Duties          | Diagnoses and treats common health problems and refers patients on. |
+      | Registration    | MED10023 |
+      | Consult room    | Room 3 |
+      | Experience      | 12 years |
+
+  The same appointment class works with a nurse
+  --------------------------------------------------------------------------------
+  Time  | ID      | Health professional      | Type                        | Patient          | Mobile      
+  08:30 | 5001    | Nurse Grace Miller       | Nurse                       | Emma Wilson      | 0434 567 890
+
+  Appointments know how to order themselves
+  --------------------------------------------------------------------------------
+  Appointment implements Comparable, comparing TimeSlot first, so
+  Collections.sort() puts a whole day in time order.
+
+  Before sorting (in the order they were created):
+    10:30  Chloe Martin
+    08:00  Daniel Kim
+    09:30  Emma Wilson
+  After Collections.sort():
+    08:00  Daniel Kim
+    09:30  Emma Wilson
+    10:30  Chloe Martin
+
+================================================================================
+ PARTS 5 AND 6 - MANAGING AND WORKING WITH APPOINTMENTS
+================================================================================
+Clinic schedule : 08:00 - 16:00 in 30-minute slots (16 slots per day)
+Booking day     : Monday
+Booked so far   : 0 appointment(s)
+
+  Adding appointments (deliberately out of time order)
+  --------------------------------------------------------------------------------
+  Booked : 13:30 with Dr Henry Okafor (Surgeon, ID 4001) for Daniel Kim, mobile 0423 456 789.
+  Booked : 08:30 with Nurse Grace Miller (Nurse, ID 5001) for Emma Wilson, mobile 0434 567 890.
+  Booked : 10:00 with Dr Ben Carter (General Practitioner, ID 2002) for Liam O'Brien, mobile 0445 678 901.
+  Booked : 08:00 with Dr Alice Nguyen (General Practitioner, ID 2001) for Chloe Martin, mobile 0412 345 678.
+  Booked : 14:00 with Dr Alice Nguyen (General Practitioner, ID 2001) for Chloe Martin, mobile 0412 345 678.
+  Booked : 09:00 with Dr Marcus Lee (Specialist (Cardiology), ID 3001) for Daniel Kim, mobile 0423 456 789.
+  Booked : 11:00 with Ms Hannah Price (Dietitian, ID 6001) for Emma Wilson, mobile 0434 567 890.
+
+  Bookings that must be refused
+  --------------------------------------------------------------------------------
+  A professional is already booked in that slot:
+  Warning: Dr Marcus Lee (ID 3001) is already booked at 09:00 with Daniel Kim.
+  The professional does not work on the booking day:
+  Warning: Dr Priya Sharma does not work on Monday. Available days: Tuesday, Thursday.
+  The time is outside the clinic hours:
+  Warning: 17:00 is not a clinic time slot. The clinic runs 08:00 - 16:00 in 30-minute slots (16 slots per day).
+  The time is not on the 30 minute slot grid:
+  Warning: 08:15 is not a clinic time slot. The clinic runs 08:00 - 16:00 in 30-minute slots (16 slots per day).
+  A required detail is missing:
+  Warning: an appointment needs a patient.
+
+  All appointments, sorted from earliest to latest
+  --------------------------------------------------------------------------------
+  All appointments for Monday
+  Time  | ID      | Health professional      | Type                        | Patient          | Mobile      
+  ------+---------+--------------------------+-----------------------------+------------------+-------------
+  08:00 | 2001    | Dr Alice Nguyen          | General Practitioner        | Chloe Martin     | 0412 345 678
+  08:30 | 5001    | Nurse Grace Miller       | Nurse                       | Emma Wilson      | 0434 567 890
+  09:00 | 3001    | Dr Marcus Lee            | Specialist (Cardiology)     | Daniel Kim       | 0423 456 789
+  10:00 | 2002    | Dr Ben Carter            | General Practitioner        | Liam O'Brien     | 0445 678 901
+  11:00 | 6001    | Ms Hannah Price          | Dietitian                   | Emma Wilson      | 0434 567 890
+  13:30 | 4001    | Dr Henry Okafor          | Surgeon                     | Daniel Kim       | 0423 456 789
+  14:00 | 2001    | Dr Alice Nguyen          | General Practitioner        | Chloe Martin     | 0412 345 678
+  ------+---------+--------------------------+-----------------------------+------------------+-------------
+  7 appointment(s) shown.
+
+  Filtering by health professional ID
+  --------------------------------------------------------------------------------
+  Appointments for Dr Alice Nguyen (General Practitioner, ID 2001)
+  Time  | ID      | Health professional      | Type                        | Patient          | Mobile      
+  ------+---------+--------------------------+-----------------------------+------------------+-------------
+  08:00 | 2001    | Dr Alice Nguyen          | General Practitioner        | Chloe Martin     | 0412 345 678
+  14:00 | 2001    | Dr Alice Nguyen          | General Practitioner        | Chloe Martin     | 0412 345 678
+  ------+---------+--------------------------+-----------------------------+------------------+-------------
+  2 appointment(s) shown.
+
+  Appointments for Nurse Grace Miller (Nurse, ID 5001)
+  Time  | ID      | Health professional      | Type                        | Patient          | Mobile      
+  ------+---------+--------------------------+-----------------------------+------------------+-------------
+  08:30 | 5001    | Nurse Grace Miller       | Nurse                       | Emma Wilson      | 0434 567 890
+  ------+---------+--------------------------+-----------------------------+------------------+-------------
+  1 appointment(s) shown.
+
+  Filtering by patient mobile number
+  --------------------------------------------------------------------------------
+  The number can be typed with spaces; it is normalised first.
+
+  Appointments for Chloe Martin (mobile 0412 345 678)
+  Time  | ID      | Health professional      | Type                        | Patient          | Mobile      
+  ------+---------+--------------------------+-----------------------------+------------------+-------------
+  08:00 | 2001    | Dr Alice Nguyen          | General Practitioner        | Chloe Martin     | 0412 345 678
+  14:00 | 2001    | Dr Alice Nguyen          | General Practitioner        | Chloe Martin     | 0412 345 678
+  ------+---------+--------------------------+-----------------------------+------------------+-------------
+  2 appointment(s) shown.
+
+  Filters that find nothing, or are not valid
+  --------------------------------------------------------------------------------
+  Warning: no appointments found for health professional ID 9999.
+  Warning: a professional ID must contain numbers only, but was: "20A1".
+  Warning: no appointments found for mobile number 0499 999 999.
+  Warning: a mobile number must contain 10 digits, but was: "0412-345".
+
+  Cancelling an appointment by professional ID and time
+  --------------------------------------------------------------------------------
+  Cancelled: 08:00 with Dr Alice Nguyen (ID 2001) for Chloe Martin.
+  Cancelling the same appointment again:
+  Warning: no appointment found at 08:00 for health professional ID 2001.
+
+  Cancellations that cannot be done
+  --------------------------------------------------------------------------------
+  Warning: no appointment found at 15:00 for health professional ID 3001.
+  Warning: a professional ID must contain numbers only, but was: "20A1".
+
+  Cancelling every appointment for one patient
+  --------------------------------------------------------------------------------
+  Cancelled: 1 appointment(s) for Chloe Martin (mobile 0412 345 678) at 14:00.
+  Cancelling for the same patient again:
+  Warning: no appointments found for mobile number 0412 345 678.
+
+  The collection after the cancellations
+  --------------------------------------------------------------------------------
+  All appointments for Monday
+  Time  | ID      | Health professional      | Type                        | Patient          | Mobile      
+  ------+---------+--------------------------+-----------------------------+------------------+-------------
+  08:30 | 5001    | Nurse Grace Miller       | Nurse                       | Emma Wilson      | 0434 567 890
+  09:00 | 3001    | Dr Marcus Lee            | Specialist (Cardiology)     | Daniel Kim       | 0423 456 789
+  10:00 | 2002    | Dr Ben Carter            | General Practitioner        | Liam O'Brien     | 0445 678 901
+  11:00 | 6001    | Ms Hannah Price          | Dietitian                   | Emma Wilson      | 0434 567 890
+  13:30 | 4001    | Dr Henry Okafor          | Surgeon                     | Daniel Kim       | 0423 456 789
+  ------+---------+--------------------------+-----------------------------+------------------+-------------
+  5 appointment(s) shown.
+
+  Appointment count: 5
+
+================================================================================
+ END OF DEMONSTRATION
+ Parts 1 to 6 demonstrated: class design, inheritance, polymorphism,
+ encapsulation, abstraction, collection management and error handling.
+================================================================================
